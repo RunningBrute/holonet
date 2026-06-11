@@ -9,6 +9,9 @@ class Session(BaseModel):
     id: str
     code: str
 
+class UpdateCodeRequest(BaseModel):
+    code: str
+
 sessions: dict[str, Session] = {}
 
 @app.get("/")
@@ -20,7 +23,7 @@ def health():
     return {"status": "ok"}
 
 @app.post("/sessions")
-async def create_session():
+def create_session():
     session = Session(
         id=str(uuid.uuid4()),
         code=""
@@ -30,7 +33,7 @@ async def create_session():
     return {"id": session.id}
 
 @app.get("/sessions/{id}")
-async def get_session(id: str):
+def get_session(id: str):
     session = sessions.get(id)
 
     if session is None:
@@ -39,4 +42,18 @@ async def get_session(id: str):
             detail="Session not found"
         )
 
-    return sessions
+    return session
+
+@app.put("/sessions/{id}/code")
+def update_code(id: str, request: UpdateCodeRequest):
+    session = sessions.get(id)
+
+    if session is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Session not found"
+        )
+    
+    session.code = request.code
+
+    return session
