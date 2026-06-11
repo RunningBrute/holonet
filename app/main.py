@@ -1,16 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 import uuid
+
+from app.models.session import Session
+from app.models.update_code_request import UpdateCodeRequest
 
 app = FastAPI()
 
-
-class Session(BaseModel):
-    id: str
-    code: str
-
-class UpdateCodeRequest(BaseModel):
-    code: str
 
 sessions: dict[str, Session] = {}
 
