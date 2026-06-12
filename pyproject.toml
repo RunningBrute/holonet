@@ -6,5 +6,6 @@ requires-python = ">=3.12"
 
 dependencies = [
     "fastapi",
-    "uvicorn[standard]"
+    "uvicorn[standard]",
+    "pytest"
 ]
