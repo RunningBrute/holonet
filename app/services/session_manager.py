@@ -26,6 +26,9 @@ class SessionManager:
 
         return session
 
+    def get_sessions(self) -> list[Session]:
+        return list(self.sessions.values())
+
     def update_code(self, id: str, code: str) -> Session:
         session = self.get_session(id)
         session.code = code

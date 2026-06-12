@@ -24,6 +24,10 @@ def create_session():
 def get_session(id: str):
     return session_manager.get_session(id)
 
+@app.get("/sessions")
+def get_sessions():
+    return session_manager.get_sessions()
+
 @app.put("/sessions/{id}/code")
 def update_code(id: str, request: UpdateCodeRequest):
     return session_manager.update_code(id, request.code)
