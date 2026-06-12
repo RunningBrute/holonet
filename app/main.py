@@ -27,3 +27,7 @@ def get_session(id: str):
 @app.put("/sessions/{id}/code")
 def update_code(id: str, request: UpdateCodeRequest):
     return session_manager.update_code(id, request.code)
+
+@app.delete("/sessions/{id}")
+def delete_session(id: str):
+    session_manager.delete_session(id)
