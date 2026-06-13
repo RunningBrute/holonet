@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 
 from app.services.session_manager import SessionManager
 from app.models.update_code_request import UpdateCodeRequest
@@ -35,3 +35,12 @@ def update_code(id: str, request: UpdateCodeRequest):
 @app.delete("/sessions/{id}")
 def delete_session(id: str):
     session_manager.delete_session(id)
+
+@app.websocket("/ws")
+async def websocket_endpoint(ws: WebSocket):
+    await ws.accept()
+
+    while True:
+        message = await ws.receive_text()
+
+        await ws.send_text(f"Echo: {message}")
