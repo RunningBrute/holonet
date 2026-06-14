@@ -1,10 +1,12 @@
 from fastapi import FastAPI, WebSocket
 
 from app.services.session_manager import SessionManager
+from app.services.connection_manager import ConnectionManager
 from app.models.update_code_request import UpdateCodeRequest
 
 app = FastAPI()
 session_manager = SessionManager()
+connection_manager = ConnectionManager()
 
 
 @app.get("/")
@@ -36,11 +38,10 @@ def update_code(id: str, request: UpdateCodeRequest):
 def delete_session(id: str):
     session_manager.delete_session(id)
 
-@app.websocket("/ws")
-async def websocket_endpoint(ws: WebSocket):
-    await ws.accept()
+@app.websocket("/ws/{id}")
+async def websocket_endpoint(id: str, ws: WebSocket):
+    connection_manager.connect(ws, id)
 
     while True:
         message = await ws.receive_text()
-
-        await ws.send_text(f"Echo: {message}")
+        await connection_manager.broadcast(id, message)
