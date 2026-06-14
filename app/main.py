@@ -48,8 +48,8 @@ async def websocket_endpoint(ws: WebSocket):
 
 @app.websocket("/ws/{session_id}")
 async def websocket_endpoint(ws: WebSocket, session_id: str):
-    connection_manager.connect(ws, session_id)
+    await connection_manager.connect(ws, session_id)
 
     while True:
         message = await ws.receive_json()
-        await connection_manager.broadcast(session_id, message)
+        await connection_manager.broadcast(session_id, message, ws)
