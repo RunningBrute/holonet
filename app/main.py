@@ -38,10 +38,18 @@ def update_code(id: str, request: UpdateCodeRequest):
 def delete_session(id: str):
     session_manager.delete_session(id)
 
-@app.websocket("/ws/{id}")
-async def websocket_endpoint(id: str, ws: WebSocket):
-    connection_manager.connect(ws, id)
+@app.websocket("/ws")
+async def websocket_endpoint(ws: WebSocket):
+    await ws.accept()
 
     while True:
         message = await ws.receive_text()
-        await connection_manager.broadcast(id, message)
+        await ws.send_text(message)
+
+@app.websocket("/ws/{session_id}")
+async def websocket_endpoint(ws: WebSocket, session_id: str):
+    connection_manager.connect(ws, session_id)
+
+    while True:
+        message = await ws.receive_json()
+        await connection_manager.broadcast(session_id, message)
