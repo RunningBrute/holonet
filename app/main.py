@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 from app.services.session_manager import SessionManager
 from app.services.connection_manager import ConnectionManager
@@ -50,6 +50,9 @@ async def websocket_endpoint(ws: WebSocket):
 async def websocket_endpoint(ws: WebSocket, session_id: str):
     await connection_manager.connect(ws, session_id)
 
-    while True:
-        message = await ws.receive_json()
-        await connection_manager.broadcast(session_id, message, ws)
+    try:
+        while True:
+            message = await ws.receive_json()
+            await connection_manager.broadcast(session_id, message, ws)
+    except WebSocketDisconnect:
+        connection_manager.disconnect(ws, session_id)

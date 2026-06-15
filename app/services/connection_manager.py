@@ -15,6 +15,9 @@ class ConnectionManager:
     def disconnect(self, ws: WebSocket, session_id: str):
         self.connections[session_id].remove(ws)
 
+        if not self.connections[session_id]:
+            del self.connections[session_id]
+
     async def broadcast(self, session_id: str, message, sender: WebSocket):
         session_connections = self.connections[session_id]
         for session_connection in session_connections:
