@@ -1,5 +1,6 @@
 const sessionId = "test-session";
 const ws = new WebSocket(`ws://localhost:8000/ws/${sessionId}`);
+let updatingFromRemote = false;
 
 ws.onopen = () => {
     console.log("connected");
@@ -39,13 +40,18 @@ int main()
 
         if (message.type === "code_update")
         {
-            editor.setValue(
-                message.code
-            );
+            updatingFromRemote = true;
+            editor.setValue(message.code);
+            updatingFromRemote = false;
         }
     };
 
     editor.onDidChangeModelContent(() => {
+
+        if (updatingFromRemote)
+        {
+            return;
+        }
 
         ws.send(
             JSON.stringify({
