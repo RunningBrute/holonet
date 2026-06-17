@@ -1,4 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from app.services.session_manager import SessionManager
 from app.services.connection_manager import ConnectionManager
@@ -8,10 +10,11 @@ app = FastAPI()
 session_manager = SessionManager()
 connection_manager = ConnectionManager()
 
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 @app.get("/")
-def root():
-    return {"message": "Hello World"}
+def index():
+    return FileResponse("frontend/index.html")
 
 @app.get("/health")
 def health():
