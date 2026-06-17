@@ -1,0 +1,69 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#container {
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+}
+
+#editor-container {
+    flex: 1;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+}
+
+#editor {
+    height: 100%;
+}
+
+#terminal-container {
+    height: 250px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    background: #1e1e1e;
+}
+
+#terminal-toolbar {
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+
+    border-bottom: 1px solid #333;
+}
+
+#terminal {
+    width: 100%;
+    height: 100%;
+}
+
+#compile-button {
+    padding: 6px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}

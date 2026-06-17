@@ -16,6 +16,11 @@ require.config({
     }
 });
 
+function appendTerminal(text)
+{
+    term.writeln(text);
+}
+
 require(['vs/editor/editor.main'], function () {
 
     const editor = monaco.editor.create(
@@ -32,6 +37,25 @@ int main()
             automaticLayout: true
         }
     );
+
+    const term = new Terminal({
+        cursorBlink: true,
+        theme: {
+            background: "#1e1e1e",
+            foreground: "#ffffff"
+        }
+    });
+
+    term.open(document.getElementById("terminal"));
+    term.writeln("Holonet Terminal");
+
+    term.writeln("");
+    term.writeln("$ Ready");
+
+    const compileButton = document.getElementById("compile-button");
+    compileButton.addEventListener("click", () => {
+        term.writeln("$ Compile requested");
+    });
 
     ws.onmessage = function(event)
     {
