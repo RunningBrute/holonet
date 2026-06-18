@@ -6,6 +6,10 @@
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
+
+cd frontend
+npm install
+npm run dev
 ```
 
 ## Run app

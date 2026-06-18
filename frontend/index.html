@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Collaborative Editor</title>
-
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/@xterm/xterm/css/xterm.css">
+    <meta charset="UTF-8">
+    <title>Holonet</title>
 </head>
 <body>
 
@@ -17,11 +15,9 @@
     <div id="terminal-container">
 
         <div id="terminal-toolbar">
-
             <button id="compile-button">
                 Compile
             </button>
-
         </div>
 
         <div id="terminal"></div>
@@ -30,9 +26,7 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
-<script src="https://unpkg.com/@xterm/xterm/lib/xterm.js"></script>
-<script src="/static/js/app.js"></script>
+<script type="module" src="/src/main.js"></script>
 
 </body>
 </html>

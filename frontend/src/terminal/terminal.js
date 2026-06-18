@@ -1,0 +1,12 @@
+import { Terminal } from '@xterm/xterm';
+import '@xterm/xterm/css/xterm.css';
+
+export function createTerminal()
+{
+    const terminal = new Terminal({cursorBlink: true});
+
+    terminal.open(document.getElementById("terminal"));
+    terminal.writeln("$ Ready");
+
+    return terminal;
+}
