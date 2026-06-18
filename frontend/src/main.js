@@ -7,7 +7,9 @@ import './styles/style.css';
 
 const editor = createEditor();
 const terminal = createTerminal();
-const socket = createWebSocket("test-session");
+const params = new URLSearchParams(window.location.search);
+const sessionId = params.get("session") ?? "default";
+const socket = createWebSocket(sessionId);
 
 const state = { updatingFromRemote: false };
 
