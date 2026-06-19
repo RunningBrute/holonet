@@ -10,11 +10,11 @@ app = FastAPI()
 session_manager = SessionManager()
 connection_manager = ConnectionManager()
 
-app.mount("/static", StaticFiles(directory="frontend"), name="static")
+app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 
 @app.get("/")
 def index():
-    return FileResponse("frontend/index.html")
+    return FileResponse("frontend/dist/index.html")
 
 @app.get("/health")
 def health():
