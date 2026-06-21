@@ -4,11 +4,13 @@ from fastapi.responses import FileResponse, RedirectResponse, Response
 
 from app.services.session_manager import SessionManager
 from app.services.connection_manager import ConnectionManager
+from app.services.compiler_service import CompilerService
 from app.models.update_code_request import UpdateCodeRequest
 
 app = FastAPI()
 session_manager = SessionManager()
 connection_manager = ConnectionManager()
+compiler_service = CompilerService()
 
 app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 
@@ -76,10 +78,11 @@ async def websocket_endpoint(ws: WebSocket, session_id: str):
         while True:
             message = await ws.receive_json()
             if message["type"] == "compile":
+                output = compiler_service.compile(session.code)
                 await connection_manager.broadcast(session_id, {
                     "type": "terminal",
-                    "text": "compile request"
-                }, ws)
+                    "text": output
+                }, None)
             await connection_manager.broadcast(session_id, message, ws)
     except WebSocketDisconnect:
         connection_manager.disconnect(ws, session_id)
