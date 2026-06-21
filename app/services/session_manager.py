@@ -10,7 +10,14 @@ class SessionManager:
     def create_session(self) -> Session:
         session = Session(
             id=str(uuid.uuid4()),
-            code="int main() { return 0; }"
+            code=
+"""#include <iostream>
+
+int main()
+{
+    std::cout << "Hello";
+}
+"""
         )
         self.sessions[session.id] = session
         return session
