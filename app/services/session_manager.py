@@ -10,10 +10,16 @@ class SessionManager:
     def create_session(self) -> Session:
         session = Session(
             id=str(uuid.uuid4()),
-            code=""
+            code="int main() { return 0; }"
         )
         self.sessions[session.id] = session
         return session
+
+    def session_exist(self, id: str) -> bool:
+        session = self.sessions.get(id)
+        if session is None:
+            return False
+        return True
 
     def get_session(self, id: str) -> Session:
         session = self.sessions.get(id)

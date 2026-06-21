@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response
 
 from app.services.session_manager import SessionManager
 from app.services.connection_manager import ConnectionManager
@@ -12,8 +12,20 @@ connection_manager = ConnectionManager()
 
 app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 
+#@app.get("/")
+#def index():
+#    return FileResponse("frontend/dist/index.html")
+
 @app.get("/")
 def index():
+    session = session_manager.create_session()
+    return RedirectResponse(url=f"/session/{session.id}")
+
+@app.get("/session/{session_id}")
+def session_page(session_id: str):
+    if not session_manager.session_exist(session_id):
+        return Response(status_code=404)
+
     return FileResponse("frontend/dist/index.html")
 
 @app.get("/health")
@@ -29,9 +41,9 @@ def create_session():
 def get_session(id: str):
     return session_manager.get_session(id)
 
-@app.get("/sessions")
-def get_sessions():
-    return session_manager.get_sessions()
+#@app.get("/sessions")
+#def get_sessions():
+#    return session_manager.get_sessions()
 
 @app.put("/sessions/{id}/code")
 def update_code(id: str, request: UpdateCodeRequest):
@@ -51,8 +63,15 @@ async def websocket_endpoint(ws: WebSocket):
 
 @app.websocket("/ws/{session_id}")
 async def websocket_endpoint(ws: WebSocket, session_id: str):
+    if not session_manager.session_exist(session_id):
+        await ws.close()
+        return
+    
     await connection_manager.connect(ws, session_id)
-
+    
+    session = session_manager.get_session(session_id)
+    await ws.send_json({"type": "initial_code", "code": session.code})
+    
     try:
         while True:
             message = await ws.receive_json()

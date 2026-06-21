@@ -14,7 +14,13 @@ export function setupWebSocket(editor, ws, state)
         console.log("received");
         const message = JSON.parse(event.data);
 
-        if (message.type === "code_update")
+        if (message.type === "initial_code")
+        {
+            state.updatingFromRemote = true;
+            editor.setValue(message.code);
+            state.updatingFromRemote = false;
+        }
+        else if (message.type === "code_update")
         {
             state.updatingFromRemote = true;
             editor.setValue(message.code);
