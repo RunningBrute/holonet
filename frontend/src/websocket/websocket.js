@@ -7,7 +7,7 @@ export function createWebSocket(sessionId)
     return ws;
 }
 
-export function setupWebSocket(editor, ws, state)
+export function setupWebSocket(editor, terminal, ws, state)
 {
     ws.onmessage = (event) => {
         
@@ -24,6 +24,12 @@ export function setupWebSocket(editor, ws, state)
         {
             state.updatingFromRemote = true;
             editor.setValue(message.code);
+            state.updatingFromRemote = false;
+        }
+        else if (message.type === "terminal")
+        {
+            state.updatingFromRemote = true;
+            terminal.writeln(message.text);
             state.updatingFromRemote = false;
         }
     };

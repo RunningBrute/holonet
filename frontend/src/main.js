@@ -8,7 +8,7 @@ import './styles/style.css';
 
 const editor = createEditor();
 const terminal = createTerminal();
-const socket = createWebSocket(getSessionId);
+const socket = createWebSocket(getSessionId());
 
 const state = { updatingFromRemote: false };
 
