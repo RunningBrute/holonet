@@ -1,13 +1,21 @@
 import subprocess
+from pathlib import Path
+
+from app.services.session_manager import Session
 
 class CompilerService:
-    def compile(self, code: str):
+    def compile(self, session: Session):
 
-        with open("main.cpp", "w") as file:
-            file.write(code)
+        session_dir = Path("tmp") / session.id
+        session_dir.mkdir(parents=True, exist_ok=True)
+        source_file = session_dir / "main.cpp"
+        binary_file = session_dir / "app"
+
+        with open(source_file, "w") as file:
+            file.write(session.code)
 
         result = subprocess.run(
-            ["g++", "main.cpp", "-o", "main"],
+            ["g++", source_file, "-o", binary_file],
             capture_output=True,
             text=True
         )

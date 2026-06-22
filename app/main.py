@@ -80,7 +80,7 @@ async def websocket_endpoint(ws: WebSocket, session_id: str):
                 await connection_manager.broadcast(session_id, message, ws)
             
             if message["type"] == "compile":
-                output = compiler_service.compile(session.code)
+                output = compiler_service.compile(session)
                 await connection_manager.broadcast(session_id, {
                     "type": "terminal",
                     "text": output
