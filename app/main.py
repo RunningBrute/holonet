@@ -14,9 +14,6 @@ compiler_service = CompilerService()
 
 app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 
-#@app.get("/")
-#def index():
-#    return FileResponse("frontend/dist/index.html")
 
 @app.get("/")
 def index():
@@ -43,9 +40,9 @@ def create_session():
 def get_session(id: str):
     return session_manager.get_session(id)
 
-#@app.get("/sessions")
-#def get_sessions():
-#    return session_manager.get_sessions()
+@app.get("/sessions")
+def get_sessions():
+    return session_manager.get_sessions()
 
 @app.put("/sessions/{id}/code")
 def update_code(id: str, request: UpdateCodeRequest):
