@@ -77,12 +77,17 @@ async def websocket_endpoint(ws: WebSocket, session_id: str):
     try:
         while True:
             message = await ws.receive_json()
+            
+            if message["type"] == "code_update":
+                session_manager.update_code(session_id, message["code"])
+                await connection_manager.broadcast(session_id, message, ws)
+            
             if message["type"] == "compile":
                 output = compiler_service.compile(session.code)
                 await connection_manager.broadcast(session_id, {
                     "type": "terminal",
                     "text": output
                 }, None)
-            await connection_manager.broadcast(session_id, message, ws)
+
     except WebSocketDisconnect:
         connection_manager.disconnect(ws, session_id)
