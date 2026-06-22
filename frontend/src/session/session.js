@@ -5,3 +5,10 @@ export function getSessionId()
         .pop();
     return sessionId;
 }
+
+export function showSessionId()
+{
+    document
+        .getElementById("session-id")
+        .textContent = `Session: ${getSessionId()}`;
+}

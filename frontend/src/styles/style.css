@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    background: #1e1e1e;
 }
 
 #container {
@@ -17,12 +18,26 @@ body {
     box-sizing: border-box;
 }
 
-#editor-container {
-    flex: 1;
+#app-header {
+    height: 50px;
 
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 16px;
 
     border-radius: 12px;
+
+    background: #252526;
+}
+
+#editor-container {
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 1;
+
+    border: 1px solid #333;
 }
 
 #editor {
@@ -40,6 +55,8 @@ body {
     border-radius: 12px;
 
     background: #1e1e1e;
+
+    border: 1px solid #333;
 }
 
 #terminal-toolbar {
@@ -59,11 +76,44 @@ body {
 }
 
 #compile-button {
-    padding: 6px 12px;
+
+    padding: 8px 16px;
+
+    background: #0e639c;
+
+    color: white;
 
     border: none;
 
-    border-radius: 6px;
+    border-radius: 8px;
 
     cursor: pointer;
+
+    transition: 0.2s;
 }
+
+#compile-button:hover {
+    opacity: 0.9;
+}
+
+#clear-terminal-button {
+
+    padding: 8px 16px;
+
+    background: #0e639c;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#clear-terminal-button:hover {
+    opacity: 0.9;
+}
+
