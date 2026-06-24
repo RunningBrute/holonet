@@ -32,5 +32,11 @@ export function setupWebSocket(editor, terminal, ws, state)
             terminal.writeln(message.text);
             state.updatingFromRemote = false;
         }
+        else if (message.type === "terminal_clear")
+        {
+            state.updatingFromRemote = true;
+            terminal.clear();
+            state.updatingFromRemote = false;
+        }
     };
 }

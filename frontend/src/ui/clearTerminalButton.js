@@ -2,5 +2,8 @@ export function setupClearTerminalButton(terminal, socket)
 {
     document
         .getElementById("clear-terminal-button")
-        .addEventListener("click", () => { terminal.clear(); });
+        .addEventListener("click", () => { 
+            terminal.clear();
+            socket.send(JSON.stringify({type: "terminal_clear"}));
+        });
 }

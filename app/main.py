@@ -86,5 +86,10 @@ async def websocket_endpoint(ws: WebSocket, session_id: str):
                     "text": output
                 }, None)
 
+            if message["type"] == "terminal_clear":
+                await connection_manager.broadcast(session_id, {
+                    "type": "terminal_clear"
+                }, None)
+
     except WebSocketDisconnect:
         connection_manager.disconnect(ws, session_id)
