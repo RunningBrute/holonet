@@ -1,8 +1,13 @@
 export function createWebSocket(sessionId)
 {
-    const ws = new WebSocket(`ws://localhost:8000/ws/${sessionId}`);
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const ws = new WebSocket(`${protocol}://${window.location.host}/ws/${sessionId}`);
+
+    console.log("WS URL:", ws.url);
     
-    ws.onopen = () => { console.log("connected"); };
+    ws.onopen = () => console.log("WS OPEN");
+    ws.onerror = (e) => console.error("WS ERROR", e);
+    ws.onclose = (e) => console.log("WS CLOSE", e.code, e.reason);
 
     return ws;
 }
