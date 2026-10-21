@@ -34,7 +34,13 @@ export function setupWebSocket(editor, terminal, ws, state)
         else if (message.type === "terminal")
         {
             state.updatingFromRemote = true;
-            terminal.writeln(message.text);
+            const output = message.text
+                .replace(/\r\n/g, "\n")
+                .replace(/\r/g, "\n")
+                .replace(/\n/g, "\r\n");
+
+            terminal.reset();
+            terminal.write(output);
             state.updatingFromRemote = false;
         }
         else if (message.type === "terminal_clear")
